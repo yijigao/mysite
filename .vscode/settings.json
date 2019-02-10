@@ -1,3 +1,10 @@
 {
-    "python.pythonPath": "C:\\Users\\yi\\Anaconda3\\envs\\flask\\python.exe"
+    "python.pythonPath": "C:\\Users\\yi\\Anaconda3\\envs\\flask\\python.exe",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/*.pyc": true,
+        "**/.DS_Store": true
+    }
 }

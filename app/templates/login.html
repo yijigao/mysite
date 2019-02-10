@@ -20,6 +20,7 @@
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
+        <p>新来的？<a href="{{ url_for('register') }}">来注册一下吧!</a></p>
     </form>
 
 {% endblock %}
