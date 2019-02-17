@@ -1,33 +1,61 @@
-<html>
-    <head>
-        {% if title %}
-        <title>{{title}} - Summer Ends</title>
-        {% else %}
-        <title>Welcome to my Home</title>
-        {% endif %}
-    </head>
-    <body>
-        <div>
-            你好啊: 
-            <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-            <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-            <a href="{{ url_for('explore')}}">Explore</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Welcome to my Home</title>
+    {% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle='collapsed' data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Microblog</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-colapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('explore') }}">随便看看</a></li>
+                </ul>
+                {% if g.seach_form %}
+                {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('login') }}">登录</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('user', username=current_user.username) }}">个人主页</a></li>
+                    <li><a href="{{ url_for('logout') }}">注销</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with message = get_flashed_messages() %}
         {% if messages %}
-        <ul>
             {% for message in messages %}
-            <li>{{ message }}</li>
+            <div class="alert alert-info" role="alert">{{ message }}</div>
             {% endfor %}
-        </ul>
         {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
-</html>
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
+
