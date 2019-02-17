@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 import logging, os
 from logging.handlers import SMTPHandler, RotatingFileHandler
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,7 +20,7 @@ from app import routes, models
 if not app.debug:
     if app.config['MAIL_SERVER']:
         auth = None
-        if app.config['MAIL_USERNAME'] or app.config['MAIL_APSSWORD']:
+        if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
             auth = (app.config["MAIL_USERNAME"], app.config["MAIL_PASSWORD"])
         secure = None
         if app.config["MAIL_USE_TLS"]:
