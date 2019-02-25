@@ -1,0 +1,24 @@
+{% extends "base.html"%}
+
+{% block app_content %}
+    <h1>Search Results</h1>
+    {% for post in posts %}
+        {% include '_post.html' %}
+    {% endfor %}
+{% endblock %}
+<nav aria-label="...">
+    <ul class="pagers">
+        <li class="previous{% if not prev_url %} disabled {% endif %}">
+            <a href="{{ prev_url or '#' }}">
+                <span aria-hidden="true">&larr;</span>
+                Previous Results
+            </a>
+        </li>
+        <li class="next{% if not next_url %} disabled {% endif %}">
+            <a href="{{ next_url or '#' }}">
+                Next Results
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
