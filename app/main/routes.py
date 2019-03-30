@@ -106,6 +106,8 @@ def unfollow(username):
     flash(f'你不再关注{username}!')
     return redirect(url_for('main.user', username=username))
 
+
+
 @bp.route('/search')
 @login_required
 def search():

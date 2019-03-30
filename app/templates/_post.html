@@ -6,7 +6,20 @@
             </a>
         </td>
         <td>
-            <a href="{{ url_for('main.user', username=post.author.username )}}">{{ post.author.username }} </a> {{ moment(post.timestamp).fromNow() }} 说 :<br> {{ post.body }}
+            {% set user_link %}
+                <span class="user_popup">
+                    <a href="{{ url_for('main.user', username=post.author.username )}}">{{ post.author.username }}</a>
+                </span>
+            {% endset %}
+            {{  _('%(username)s said %(when)s',
+            username=user_link, when=moment(post.timestamp).fromNow()) }}
+            <br>
+            <span id='post{{ post.id }}'> {{ post.body }} </span>
+            {% if post.language and post.language != g.locale %} {% endif %}
+            <br><br>
+            <!-- <span id="transaltion {{ post.id }}">
+                <a href="javascript:translate('#post{{ post.id }}', '#translation{{ post.id }}', '{{ post.language }}', '{{ g.locale }}');">Translate</a>
+            </span> -->
         </td>
     </tr>
 </table>
