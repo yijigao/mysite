@@ -5,7 +5,7 @@ from wtforms.validators import ValidationError, DataRequired, Length
 from app.models import User
 
 class EditProfileForm(FlaskForm):
-    username = StringField('用户名', validators=[DataRequired])
+    username = StringField('用户名', validators=[DataRequired()])
     about_me = TextAreaField('关于我', validators=[Length(min=0, max=140)])
     submit = SubmitField("提交")
 
@@ -14,8 +14,8 @@ class EditProfileForm(FlaskForm):
         self.original_username = original_username
 
     def validate_username(self, username):
-        if username != self.original_username:
-            user = User.query().filter_by(username=self.username.data).first()
+        if username.data != self.original_username:
+            user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError("请输入一个不同的名字")
 
