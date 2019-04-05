@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>私信</h1>
+    {% for post in messages %}
+        {% include '_post.html' %}
+    {% endfor %}
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="preivious {% if not prev_url %} disabled {% endif %}">
+                <a href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span>前页
+                </a>
+            </li>
+            <li class="next{% if not next_url %} disabled {% endif %}">
+                <a href="{{ next_url or '#' }}">
+                    后页<span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

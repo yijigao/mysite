@@ -24,6 +24,11 @@ class PostForm(FlaskForm):
     submit = SubmitField('发布')
 
 
+class MessageForm(FlaskForm):
+    message = TextAreaField("请编辑一条私信", validators=[DataRequired(), Length(min=0, max=140)])
+    submit = SubmitField('发送啦~')
+
+
 class SearchForm(FlaskForm):
     q = StringField('Search', validators=[DataRequired()])
 
