@@ -81,7 +81,13 @@
         //         $(destElem).text("{{ _('Error: Could not contact server.') }}");
         //     });
         // }
-
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6ca93919c49937bdff1dfd1f7c18e771";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
         $(function () {
             var timer = null;
             var xhr = null;
