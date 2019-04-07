@@ -11,6 +11,9 @@
                 <p>{{ user.followers.count() }} 粉丝, {{ user.followed.count() }} 关注.</p>
                 {% if user == current_user %}
                 <p><a href="{{url_for('main.edit_profile') }}">编辑</a></p>
+                {% if not current_user.get_task_in_progress('export_posts') %}
+                <p><a href="{{ url_for('main.export_posts')}}">导出你的posts</a></p>
+                {% endif %}
                 {% elif not current_user.is_following(user) %}
                 <p><a href="{{ url_for('main.follow', username= user.username) }}">关注</a></p>
                 {% else %}
