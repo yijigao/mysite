@@ -17,7 +17,7 @@ def before_request():
         g.search_form = SearchForm()
     g.locale = str(get_locale())
 
-@bp.route('/favicon.ico')
+@bp.route('/favicon.ico', methods=['GET', 'POST'])
 def favicon():
     return send_from_directory(os.path.join(current_app.root_path, 'static'), 'favicon.ico')
 
