@@ -9,6 +9,13 @@
     {% endif %}
 {% endblock %}
 
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename = 'slime.jpg') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename = 'slime.jpg') }}" type="image/x-icon">
+{% endblock %}
+
+
 {% block navbar %}
     <nav class="navbar navbar-default">
         <div class="container">
@@ -51,6 +58,9 @@
         </div>
     </nav>
 {% endblock %}
+
+
+
 
 {% block content %}
     <div class="container">
