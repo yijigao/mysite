@@ -13,9 +13,18 @@
     {% include '_post.html' %}
 </div>
 
-{% if pagination %}
-    <div class="pagination" >
-        {{ macros.pagination_widget(pagination, 'main.index') }}
-    </div>
-{% endif %}
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="preivious {% if not prev_url %} disabled {% endif %}">
+            <a href="{{ prev_url or '#' }}">
+                <span aria-hidden="true">&larr;</span>前页
+            </a>
+        </li>
+        <li class="next{% if not next_url %} disabled {% endif %}">
+            <a href="{{ next_url or '#' }}">
+                后页<span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 {% endblock%}
