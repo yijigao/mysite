@@ -2,7 +2,31 @@
 
 {% block app_content %}
     <h1>私信</h1>
-    {% include '_post.html' %}
+    <table class="table table-hover">
+        {% for post in messages %}
+        <tr>
+            <td width='70px'>
+                <a href="{{ url_for('main.user', username=post.author.username) }}">
+                    <img src="{{ post.author.avatar(70) }}"/>
+                </a>
+            </td>
+            <td>
+                {% set user_link %}
+                    <span class="user_popup">
+                        <a href="{{ url_for('main.user', username=post.author.username )}}">{{ post.author.username }}</a>
+                    </span>
+                {% endset %}
+                {{  _('%(username)s said %(when)s',
+                username=user_link, when=moment(post.timestamp).fromNow()) }}
+                <br>
+                <span id='post{{ post.id }}'>
+                        {{ post.body }} 
+                    </span>
+                <br><br>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
     <nav aria-label="...">
         <ul class="pager">
             <li class="preivious {% if not prev_url %} disabled {% endif %}">

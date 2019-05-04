@@ -31,8 +31,8 @@ class MessageForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    comment = TextAreaField("回复Ta", validators=[DataRequired(), Length(min=0, max=140)])
-    submit = SubmitField(">>>>")
+    body = TextAreaField("评论", validators=[DataRequired(), Length(min=0, max=140)])
+    submit = SubmitField("发送~")
 
 
 class SearchForm(FlaskForm):
