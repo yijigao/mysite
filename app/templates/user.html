@@ -24,9 +24,7 @@
         </tr>
     </table>
     <hr>
-    {% for post in posts %}
-        {% include "_post.html" %}
-    {% endfor %}
+    {% include "_post.html" %}
     <nav aria-label="...">
         <ul class="pager">
             <li class="previous{% if not prev_url %} disabled{% endif %}">

@@ -1,4 +1,5 @@
 <table class="table table-hover">
+    {% for post in posts %}
     <tr>
         <td width='70px'>
             <a href="{{ url_for('main.user', username=post.author.username) }}">
@@ -14,14 +15,25 @@
             {{  _('%(username)s said %(when)s',
             username=user_link, when=moment(post.timestamp).fromNow()) }}
             <br>
-            <span id='post{{ post.id }}'> {{ post.body }} </span>
-            {% if post.language and post.language != g.locale %} {% endif %}
+            <span id='post{{ post.id }}'>
+                {% if post.body_html %}
+                    {{ post.body_html | safe }}
+                {% else %}
+                    {{ post.body }} 
+                {% endif %}
+                {% if current_user == post.author %} 
+                </span>
             <br><br>
-            <!-- <span id="transaltion {{ post.id }}">
-                <a href="javascript:translate('#post{{ post.id }}', '#translation{{ post.id }}', '{{ post.language }}', '{{ g.locale }}');">Translate</a>
-            </span> -->
+            <a href="{{ url_for('main.edit_post', id=post.id) }}">
+                    <span class="label label-primary">Edit</span>
+                </a>
+                {% endif %}
+                <a href="{{ url_for('main.post', id=post.id) }}#comments">
+                    <span class="label label-primary"> {{ post.comments.count() }} Comments</span>
+            </a>   
         </td>
     </tr>
+    {% endfor %}
 </table>
 
 

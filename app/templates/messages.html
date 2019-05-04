@@ -2,9 +2,7 @@
 
 {% block app_content %}
     <h1>私信</h1>
-    {% for post in messages %}
-        {% include '_post.html' %}
-    {% endfor %}
+    {% include '_post.html' %}
     <nav aria-label="...">
         <ul class="pager">
             <li class="preivious {% if not prev_url %} disabled {% endif %}">

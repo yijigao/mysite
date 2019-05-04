@@ -11,6 +11,7 @@ from flask_moment import Moment
 from flask_babel import Babel
 from elasticsearch import Elasticsearch
 from redis import Redis
+from flask_pagedown import PageDown
 import rq
 
 db = SQLAlchemy()
@@ -22,7 +23,7 @@ mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
 babel = Babel()
-
+pagedown = PageDown()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -35,6 +36,7 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
+    pagedown.init_app(app)
 
 
     from app.auth import bp as auth_bp 

@@ -16,5 +16,6 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     ADMINS = ['573496046@qq.com']
     POSTS_PER_PAGE = 25
+    # FLASKY_COMMENTS_PER_PAGE = 5
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'

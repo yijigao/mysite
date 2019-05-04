@@ -1,12 +1,15 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app, send_from_directory
-from flask_login import current_user, login_required
+from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app, send_from_directory, abort
+from flask_login import current_user, login_required, AnonymousUserMixin
 from flask_babel import _, get_locale
 from app import db
-from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
-from app.models import User, Post, Message, Notification
+from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm
+from app.models import User, Post, Message, Notification, Comment, Permission, Role
+from app.decorators import admin_required, permission_required
 from app.main import bp
 import os 
+
+
 
 
 @bp.before_app_request
@@ -40,7 +43,7 @@ def index():
     return render_template('index.html', title='Home', form=form, posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 @bp.route('/explore')
-# @login_required
+@login_required
 def explore():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
@@ -172,3 +175,42 @@ def export_posts():
         current_user.launch_task('export_posts', 'Exporting posts...')
         db.session.commit()
     return redirect(url_for('main.user', username=current_user.username))
+
+@bp.route('/edit_post/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(id):
+    post = Post.query.get_or_404(id)
+    if current_user != post.author: # and not current_user.can(Permission.ADMINISTER):
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.body = form.post.data
+        db.session.add(post)
+        db.session.commit()
+        flash('The post has been update.')
+        return redirect(url_for('main.post', id=post.id))
+    form.post.data = post.body
+    return render_template('edit_post.html', form=form)
+
+
+
+
+
+
+@bp.route('/post/<int:id>', methods=['GET', 'POST'])
+@login_required
+def post(id):
+    post = Post.query.get_or_404(id)
+    form = CommentForm()
+    if form.validate_on_submit(): #and current_user.can(Permission.COMMENT):
+        comment = Comment(body=form.body.data, post=post, author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
+        flash('评论发布成功~')
+        return redirect(url_for('main.post', id=post.id, page=-1))
+    page = request.args.get('page', 1 , type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) // current_app.config['POSTS_PER_PAGE'] + 1
+    pagination = post.comments.order_by(Comment.timestamp.desc()).paginate(page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
+    comments = pagination.items
+    return render_template('post.html', posts=[post], form=form, comments=comments, pagination=pagination)

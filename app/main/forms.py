@@ -1,5 +1,6 @@
 from flask import request
 from flask_wtf import FlaskForm
+from flask_pagedown.fields import PageDownField
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Length
 from app.models import User
@@ -20,13 +21,18 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError("请输入一个不同的名字")
 
 class PostForm(FlaskForm):
-    post = TextAreaField("现在在想什么呢？", validators=[DataRequired()])
+    post = PageDownField("现在在想什么呢？", validators=[DataRequired()])
     submit = SubmitField('发布')
 
 
 class MessageForm(FlaskForm):
     message = TextAreaField("请编辑一条私信", validators=[DataRequired(), Length(min=0, max=140)])
     submit = SubmitField('发送啦~')
+
+
+class CommentForm(FlaskForm):
+    comment = TextAreaField("回复Ta", validators=[DataRequired(), Length(min=0, max=140)])
+    submit = SubmitField(">>>>")
 
 
 class SearchForm(FlaskForm):
