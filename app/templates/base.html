@@ -27,11 +27,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">首页</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}"> 🏠 首页</a>
             </div>
             <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('main.explore') }}">随便看看</a></li>
+                    <li><a href="{{ url_for('main.explore') }}"> ✨ 随便看看</a></li>
                 </ul>
                 {% if g.search_form %}
                 <form class="navbar-form navbar-left" method="GET" action="{{ url_for('main.search') }}">
@@ -42,17 +42,17 @@
                 {% endif %}
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+                    <li><a href="{{ url_for('auth.login') }}"> 🔑 登录 </a></li>
                     {% else %}
-                    <li><a href="{{ url_for('main.user', username=current_user.username) }}">个人主页</a></li>
-                    <li><a href="{{ url_for('main.messages')}}">私信
+                    <li><a href="{{ url_for('main.user', username=current_user.username) }}"> 🍋 个人主页 </a></li>
+                    <li><a href="{{ url_for('main.messages')}}"> 📧 私信
                         {% set new_messages = current_user.new_messages() %}
                         {% if new_messages %}
                         <span id="message_count", class="badge",style="visibility:{% if new_messages %}visible{% else %}hidden{% endif %};">
                             {{ new_messages }}</span>
                         {% endif %}
                     </a></li>
-                    <li><a href="{{ url_for('auth.logout') }}">注销</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}"> ❌ 注销</a></li>
                     {% endif %}
                 </ul>
             </div>

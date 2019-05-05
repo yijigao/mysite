@@ -25,11 +25,11 @@
                 </span>
             <br><br>
             <a href="{{ url_for('main.edit_post', id=post.id) }}">
-                    <span class="label label-primary">Edit</span>
+                    <span class="label label-default"> 🖍 编辑 </span>
                 </a>
                 {% endif %}
-                <a href="{{ url_for('main.post', id=post.id) }}#comments">
-                    <span class="label label-primary"> {{ post.comments.count() }} Comments</span>
+                &nbsp;<a href="{{ url_for('main.post', id=post.id) }}#comments">
+                    <span class="label label-default"> 💬 {{ post.comments.count() }} 回复</span>
             </a>   
         </td>
     </tr>
