@@ -1,5 +1,6 @@
 <table class="table table-hover">
     {% for post in posts %}
+    {% if post.isvalid %}
     <tr>
         <td width='70px'>
             <a href="{{ url_for('main.user', username=post.author.username) }}">
@@ -30,9 +31,12 @@
                 {% endif %}
                 &nbsp;<a href="{{ url_for('main.post', id=post.id) }}#comments">
                     <span class="label label-default"> 💬 {{ post.comments.count() }} 回复</span>
+                &nbsp;{% if current_user == post.author %} <a href="{{ url_for('main.delete_post', id=post.id) }}">
+                        <span class="label label-default"> ❗ 删除 </span> {% endif %}                
             </a>   
         </td>
     </tr>
+{% endif %}
 {% endfor %}
 </table>
 

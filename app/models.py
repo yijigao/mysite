@@ -50,7 +50,7 @@ class Comment(db.Model):
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    disabled = db.Column(db.Boolean)
+    disabled = db.Column(db.Boolean, default=True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
 
@@ -72,15 +72,15 @@ class Notification(db.Model):
     def get_data(self):
         return json.loads(str(self.payload_json))
 
-class AnonymousUser(AnonymousUserMixin):
-    def can(self, permission):
-        return False
+# class AnonymousUser(AnonymousUserMixin):
+#     def can(self, permission):
+#         return False
     
-    def is_administrator(self):
-        return False
+#     def is_administrator(self):
+#         return False
 
-login_manager= LoginManager()
-login_manager.anonymous_user = AnonymousUser()
+# login_manager= LoginManager()
+# login_manager.anonymous_user = AnonymousUser()
 
 
 class User(UserMixin, db.Model):
@@ -104,21 +104,21 @@ class User(UserMixin, db.Model):
     last_message_read_time = db.Column(db.DateTime)
     notifications = db.relationship('Notification', backref='user', lazy='dynamic')
     tasks = db.relationship('Task', backref='user', lazy='dynamic')
-    role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
+    # role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
         
-    def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-        if self.role is None:
-            if self.email == current_app.config['FLASK_ADMIN']:
-                self.role = Role.query.filter_by(permissions=0xff).first()
-            if self.role is None:
-                self.role = Role.query.filter_by(default=True).first()
+    # def __init__(self, **kwargs):
+    #     super(User, self).__init__(**kwargs)
+    #     if self.role is None:
+    #         if self.email == current_app.config['FLASK_ADMIN']:
+    #             self.role = Role.query.filter_by(permissions=0xff).first()
+    #         if self.role is None:
+    #             self.role = Role.query.filter_by(default=True).first()
     
-    def can(self, permissions):
-        return self.role is not None and (self.role.permissinons & permissions) == permissions
+    # def can(self, permissions):
+    #     return self.role is not None and (self.role.permissinons & permissions) == permissions
     
-    def is_administrator(self):
-        return self.can(Permission.ADMINISTER)
+    # def is_administrator(self):
+    #     return self.can(Permission.ADMINISTER)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -238,6 +238,7 @@ class Post(SearchableMixin, db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    isvalid = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
         return '<Post {self.body}>'
@@ -249,41 +250,41 @@ class Post(SearchableMixin, db.Model):
         target.body_html = bleach.linkify(bleach.clean(
         markdown(value, output_format='html'),tags=allowed_tags, strip=True))
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    default = db.Column(db.Boolean, default=False, index=True)
-    permissinons = db.Column(db.Integer)
-    users = db.relationship('User', backref='role', lazy='dynamic')
+# class Role(db.Model):
+#     __tablename__ = 'roles'
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(64), unique=True)
+#     default = db.Column(db.Boolean, default=False, index=True)
+#     permissinons = db.Column(db.Integer)
+#     users = db.relationship('User', backref='role', lazy='dynamic')
 
-    def __repr__(self):
-        return f"<Role {self.name}>"
+#     def __repr__(self):
+#         return f"<Role {self.name}>"
 
-    @staticmethod
-    def insert_roles():
-        roles = {
-            'User':(Permission.FOLLOW | Permission.COMMENT | Permission.WRITE_ARTICLES, True),
-            'Moderator':(Permission.FOLLOW | Permission.COMMENT | Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, False),
-            'Adminstrator':(0xff, False)
-        }
-        for r in roles:
-            role = Role.query.filter_by(name=r).first()
-            if role is None:
-                role = Role(name=r)
-            role.permissinons = roles[r][0]
-            role.default = roles[r][1]
-            db.session.add(role)
-        db.session.commit()
+#     @staticmethod
+#     def insert_roles():
+#         roles = {
+#             'User':(Permission.FOLLOW | Permission.COMMENT | Permission.WRITE_ARTICLES, True),
+#             'Moderator':(Permission.FOLLOW | Permission.COMMENT | Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, False),
+#             'Adminstrator':(0xff, False)
+#         }
+#         for r in roles:
+#             role = Role.query.filter_by(name=r).first()
+#             if role is None:
+#                 role = Role(name=r)
+#             role.permissinons = roles[r][0]
+#             role.default = roles[r][1]
+#             db.session.add(role)
+#         db.session.commit()
 
 
 
-class Permission:
-    FOLLOW = 0x01
-    COMMENT = 0x02
-    WRITE_ARTICLES = 0x04
-    MODERATE_COMMENTS = 0x08
-    ADMINISTER = 0x80
+# class Permission:
+#     FOLLOW = 0x01
+#     COMMENT = 0x02
+#     WRITE_ARTICLES = 0x04
+#     MODERATE_COMMENTS = 0x08
+#     ADMINISTER = 0x80
 
 
 db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)

@@ -4,8 +4,7 @@ from flask_login import current_user, login_required, AnonymousUserMixin
 from flask_babel import _, get_locale
 from app import db
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm
-from app.models import User, Post, Message, Notification, Comment, Permission, Role
-from app.decorators import admin_required, permission_required
+from app.models import User, Post, Message, Notification, Comment
 from app.main import bp
 import os 
 
@@ -214,3 +213,12 @@ def post(id):
     pagination = post.comments.order_by(Comment.timestamp.desc()).paginate(page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
     comments = pagination.items
     return render_template('post.html', posts=[post], form=form, comments=comments, pagination=pagination)
+
+@bp.route('/delete_post/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_post(id):
+    post = Post.query.get_or_404(id)
+    post.isvalid = False
+    db.session.add(post)
+    db.session.commit()
+    return redirect(url_for("main.index"))
