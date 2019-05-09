@@ -22,17 +22,13 @@
                 {% else %}
                     {{ post.body }} 
                 {% endif %}
-                {% if current_user == post.author %} 
-                </span>
-            <br><br>
-            <a href="{{ url_for('main.edit_post', id=post.id) }}">
-                    <span class="label label-default"> 🖍 编辑 </span>
-                </a>
-                {% endif %}
-                &nbsp;<a href="{{ url_for('main.post', id=post.id) }}#comments">
+                <a href="{{ url_for('main.post', id=post.id) }}#comments">
                     <span class="label label-default"> 💬 {{ post.comments.count() }} 回复</span>
-                &nbsp;{% if current_user == post.author %} <a href="{{ url_for('main.delete_post', id=post.id) }}">
-                        <span class="label label-default"> ❗ 删除 </span> {% endif %}                
+                </a>
+                {% if current_user == post.author %} 
+                <a href="{{ url_for('main.delete_post', id=post.id) }}">
+                    <span class="label label-default">❗ 删除 </span> 
+                {% endif %}                
             </a>   
         </td>
     </tr>
