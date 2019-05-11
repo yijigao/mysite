@@ -1,4 +1,5 @@
 {% extends 'bootstrap/base.html' %}
+{% from "bootstrap/pagination.html" import render_pagination %}
 {% import 'bootstrap/google.html' as google %}
 
 {% block title %}
@@ -67,20 +68,7 @@
         {% endwith %}
         {# application content needs to be provided in the app_content block #}
         {% block app_content %}{% endblock %}
-        <nav aria-label="...">
-            <ul class="pager">
-                <li class="previous{% if not prev_url %} disabled{% endif %}">
-                    <a href="{{ prev_url or '#' }}">
-                        <span aria-hidden="true"></span> ⬅前
-                    </a>
-                </li>
-                <li class="next{% if not next_url %} disabled{% endif %}">
-                    <a href="{{ next_url or '#' }}">
-                        后➡ <span aria-hidden="true"></span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        {{ render_pagination(pagination) }}
 {% endblock %}
  
 
