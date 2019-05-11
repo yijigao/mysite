@@ -6,3 +6,5 @@
 /migrations
 *.db
 *.pyc
+/certs
+*.env*
