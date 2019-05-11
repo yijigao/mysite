@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app, send_from_directory, abort
 from flask_login import current_user, login_required, AnonymousUserMixin
 from flask_babel import _, get_locale
@@ -10,10 +10,11 @@ import os
 import moment
 
 
+
 @bp.before_app_request
 def before_request():
     if current_user.is_authenticated:
-        current_user.last_seen = datetime.utcnow()
+        current_user.last_seen = datetime.now()
         db.session.commit()
         g.search_form = SearchForm()
     g.locale = str(get_locale())
