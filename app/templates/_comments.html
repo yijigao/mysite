@@ -13,7 +13,7 @@
                 </span>
             {% endset %}
             {{  _('%(username)s 发表于 %(when)s',
-            username=user_link, when=moment(post.timestamp).fromNow()) }}
+            username=user_link, when=moment(comment.timestamp).fromNow()) }}
             <br>
             <span id='comment{{ comment.id }}'>
                 {% if comment.body_html %}
