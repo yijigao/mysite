@@ -1,6 +1,6 @@
 {% extends 'bootstrap/base.html' %}
-{% from "bootstrap/pagination.html" import render_pagination %}
 {% import 'bootstrap/google.html' as google %}
+
 
 {% block title %}
     {% if title %}
@@ -68,7 +68,6 @@
         {% endwith %}
         {# application content needs to be provided in the app_content block #}
         {% block app_content %}{% endblock %}
-        {{ render_pagination(pagination) }}
 {% endblock %}
  
 

@@ -1,6 +1,6 @@
 <table class="table table-hover">
-    {% for post in posts %}
-    {% if post.isvalid %}
+{% for post in posts %}
+{% if post.isvalid %}
     <tr>
         <td width='70px'>
             <a href="{{ url_for('main.user', username=post.author.username) }}">
