@@ -13,8 +13,8 @@
                     <a href="{{ url_for('main.user', username=post.author.username )}}">{{ post.author.username }}</a>
                 </span>
             {% endset %}
-            {{  _('%(username)s said %(when)s',
-            username=user_link, when=moment(post.timestamp).fromNow()) }}
+            {{  _('%(username)s 发表于 %(when)s',
+            username=user_link, when=post.timestamp.strftime("%Y-%m-%d %H:%M:%S")) }}
             <br>
             <span id='post{{ post.id }}'>
                 {% if post.body_html %}

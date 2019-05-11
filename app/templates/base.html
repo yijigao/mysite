@@ -33,13 +33,6 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('main.explore') }}"> ✨ 随便看看</a></li>
                 </ul>
-                {% if g.search_form %}
-                <form class="navbar-form navbar-left" method="GET" action="{{ url_for('main.search') }}">
-                    <div class="form-group">
-                        {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
-                    </div>
-                </form>
-                {% endif %}
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
                     <li><a href="{{ url_for('auth.login') }}"> 🔑 登录 </a></li>
@@ -74,8 +67,23 @@
         {% endwith %}
         {# application content needs to be provided in the app_content block #}
         {% block app_content %}{% endblock %}
-    </div>
+        <nav aria-label="...">
+            <ul class="pager">
+                <li class="previous{% if not prev_url %} disabled{% endif %}">
+                    <a href="{{ prev_url or '#' }}">
+                        <span aria-hidden="true"></span> ⬅前
+                    </a>
+                </li>
+                <li class="next{% if not next_url %} disabled{% endif %}">
+                    <a href="{{ next_url or '#' }}">
+                        后➡ <span aria-hidden="true"></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 {% endblock %}
+ 
+
 
 {% block scripts %}
     {{ super() }}

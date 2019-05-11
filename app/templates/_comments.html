@@ -12,8 +12,8 @@
                     <a href="{{ url_for('main.user', username=comment.author.username )}}">{{ comment.author.username }}</a>
                 </span>
             {% endset %}
-            {{  _('%(username)s said %(when)s',
-            username=user_link, when=moment(comment.timestamp).fromNow()) }}
+            {{  _('%(username)s 发表于 %(when)s',
+            username=user_link, when=comment.timestamp.strftime("%Y-%m-%d %H:%M:%S")) }}
             <br>
             <span id='comment{{ comment.id }}'>
                 {% if comment.body_html %}
