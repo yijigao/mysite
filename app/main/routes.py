@@ -46,7 +46,7 @@ def index():
 @login_required
 def explore():
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+    pagination = Post.query.filter_by(isvalid=1).order_by(Post.timestamp.desc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
     posts = pagination.items
     # next_url = url_for('main.explore', page=posts.next_num) \
