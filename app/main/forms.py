@@ -8,7 +8,7 @@ from app.models import User
 class EditProfileForm(FlaskForm):
     username = StringField(' 🐱‍👤 用户名', validators=[DataRequired()])
     about_me = TextAreaField(' 👀 关于我', validators=[Length(min=0, max=140)])
-    submit = SubmitField("🏹 发送")
+    submit = SubmitField("🏹 发布")
 
     def __init__(self, original_username, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -22,7 +22,7 @@ class EditProfileForm(FlaskForm):
 
 class PostForm(FlaskForm):
     post = PageDownField("✒ 现在在想什么呢？", validators=[DataRequired()])
-    submit = SubmitField('🏹 发送')
+    submit = SubmitField('🏹 发布')
 
 
 class MessageForm(FlaskForm):
@@ -32,7 +32,7 @@ class MessageForm(FlaskForm):
 
 class CommentForm(FlaskForm):
     body = TextAreaField("✒ 评论", validators=[DataRequired(), Length(min=0, max=140)])
-    submit = SubmitField("🏹 发送")
+    submit = SubmitField("🏹 发布")
 
 
 class SearchForm(FlaskForm):

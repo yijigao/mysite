@@ -30,7 +30,7 @@ def upgrade():
     op.create_table('comments',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('body', sa.Text(), nullable=True),
-    sa.Column('body_html', sa.Text(), nullable=True),
+    # sa.Column('body_html', sa.Text(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('disabled', sa.Boolean(), nullable=True),
     sa.Column('author_id', sa.Integer(), nullable=True),
@@ -42,7 +42,7 @@ def upgrade():
     op.create_index(op.f('ix_comments_timestamp'), 'comments', ['timestamp'], unique=False)
     op.add_column('post', sa.Column('bod_html', sa.Text(), nullable=True))
     op.add_column('user', sa.Column('role_id', sa.Integer(), nullable=True))
-    op.create_foreign_key(None, 'user', 'roles', ['role_id'], ['id'])
+    # op.create_foreign_key(None, 'user', 'roles', ['role_id'], ['id'])
     # ### end Alembic commands ###
 
 
