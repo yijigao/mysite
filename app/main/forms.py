@@ -21,17 +21,17 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError("请输入一个不同的名字")
 
 class PostForm(FlaskForm):
-    post = PageDownField("🖍 现在在想什么呢？", validators=[DataRequired()])
+    post = PageDownField("✒ 现在在想什么呢？", validators=[DataRequired()])
     submit = SubmitField('🏹 发送')
 
 
 class MessageForm(FlaskForm):
-    message = TextAreaField("🖍 请编辑一条私信", validators=[DataRequired(), Length(min=0, max=140)])
+    message = TextAreaField("✒ 请编辑一条私信", validators=[DataRequired(), Length(min=0, max=140)])
     submit = SubmitField('🏹 发送')
 
 
 class CommentForm(FlaskForm):
-    body = TextAreaField("🖍 评论", validators=[DataRequired(), Length(min=0, max=140)])
+    body = TextAreaField("✒ 评论", validators=[DataRequired(), Length(min=0, max=140)])
     submit = SubmitField("🏹 发送")
 
 
