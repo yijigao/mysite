@@ -3,7 +3,6 @@
 /logs
 /.vscode
 /app/__pycache__
-/migrations
 *.db
 *.pyc
 /certs
