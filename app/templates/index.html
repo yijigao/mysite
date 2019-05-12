@@ -1,12 +1,14 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
-{% import "_macros.html" as macros with context %}
+{#% import 'bootstrap/wtf.html' as wtf %#}
+{#% import "_macros.html" as macros with context %#}
+{% from 'bootstrap/form.html' import render_form %}
 {% from "bootstrap/pagination.html" import render_pagination %}
 
 {% block app_content %}
     <h1>{{ current_user.username }}</h1>
     {% if form %}
-    {{ wtf.quick_form(form) }}
+    {#{ wtf.quick_form(form) }#}
+    {{ render_form(form) }}
     {% endif %}
     <br>
 
