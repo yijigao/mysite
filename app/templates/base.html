@@ -33,17 +33,32 @@
                         <ul class="navbar-nav mr-auto">
                             {{ render_nav_item('main.index', '🏠 首页', use_li=True) }}
                             {{ render_nav_item('main.explore', '✨ 随便看看', use_li=True) }}
+                        </ul>
+                        
+                        <ul class="navbar-nav ml-auto">
                             {% if current_user.is_anonymous %}
                             {{ render_nav_item('auth.login', '🔑 登录', use_li=True) }}
                             {% else %}
-                            {{ render_nav_item('main.user', '🍋 个人主页', use_li=True, username=current_user.username) }}
-                            {{ render_nav_item('main.messages', '📧 私信', use_li=True) }}
+                            {#{ render_nav_item('main.messages', '📧 私信', use_li=True) }#}
+                            <li><a href="{{ url_for('main.messages')}}"> 📧 私信
                                 {% set new_messages = current_user.new_messages() %}
                                 {% if new_messages %}
-                                <span id="message_count", class="badge",style="visibility:{% if new_messages %}visible{% else %}hidden{% endif %};">
-                                    {{ new_messages }}</span>
+                                <span id="message_count", class="badge",style="visibility:{% if new_messages %}visible{% else %}hidden{% endif %};">{{ new_messages }}</span>
                                 {% endif %}
-                                {{ render_nav_item('auth.logout', '❌ 注销', use_li=True) }}
+                                </a>
+                            </li>
+                            &nbsp;&nbsp;
+                            <li>
+                                <a href="{{ url_for('main.user', username=current_user.username) }}">
+                                    <img src="{{ current_user.avatar(128) }}" width="25" height="25">{{ current_user.username }}
+                                </a>
+                            </li>
+                            &nbsp;&nbsp;
+                            {#{ render_nav_item('main.user', '🍋 个人主页', use_li=True, username=current_user.username) }#}
+                            <li>
+                                <a href="{{ url_for('auth.logout') }}">❌ 注销</a>
+                            </li>
+                            {#{ render_nav_item('auth.logout', '❌ 注销', use_li=True)}#}
                             {% endif %}
                         </ul>
                     </div>
